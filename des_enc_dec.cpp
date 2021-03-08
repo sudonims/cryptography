@@ -117,7 +117,7 @@ class key_gen
     public:
     key_gen()
     {
-        key="01234ABCDEF56789";
+        key="0101000100000001";
         key=hex2bin(key);
     }
 
@@ -139,6 +139,7 @@ class key_gen
         {
             intermediate.pb(key[Parity_Drop[i]-1]);
         }
+        cout<<"Parity Drop: "<<intermediate<<endl;
         left=intermediate.substr(0,28);
         right=intermediate.substr(28,28);
         for(i=0;i<16;i++)
@@ -156,6 +157,7 @@ class key_gen
             intermediate=left+right;
             intermediate=comp_D(intermediate);
             keys.pb(intermediate);
+            cout<<left<<" "<<right<<endl<<intermediate<<endl;
             cout<<"key "<<i+1<<":"<<intermediate<<endl;
             intermediate.clear();
         }
@@ -252,8 +254,9 @@ class encryption
         int i,row,col,val;
         string inter,inter1="";
         inter=permutation(str,exp_d);
+        cout<<"Expansion D:"<<inter<<endl;
         inter=x_or(inter,key);
-        
+        cout<<"XOR:"<<inter<<endl;
         for(i=0;i<8;i++)
         {
             row=2*int(inter[i*6]-'0') + int(inter[i*6 +5]-'0');
@@ -264,7 +267,9 @@ class encryption
             inter1+=char(val/2+'0'); val%=2;
             inter1+=char(val+'0');
         }
+        cout<<"SBOX:"<<inter1<<endl;
         inter=permutation(inter1,straight_per);
+        cout<<"Straightbox:"<<inter<<endl;
         return inter;
     }
     void convert(string plain)
@@ -279,6 +284,7 @@ class encryption
         {
             r=right;
             right=x_or(left,round_function(right,keys[i]));
+            cout<<"XORLEft:"<<right<<endl;
             left=r;
             cout<<"after "<<i+1<<" rounds:left->"<<bin2hex(left)<<" right->"<<bin2hex(right)<<endl;
         }
