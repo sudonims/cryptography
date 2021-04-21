@@ -1,4 +1,7 @@
 {
 	"python.formatting.provider": "yapf",
-	"editor.formatOnSave": true
+	"editor.formatOnSave": true,
+	"files.associations": {
+		"iostream": "cpp"
+	}
 }
